@@ -1,0 +1,148 @@
+csv_table_test.txt (Test output)
+1 test_init()
+
+output:
+
+DEBUG:root:CSVDataTable.__init__: data = {
+  "table_name": "people",
+  "connect_info": {
+    "directory": "/Users/xushusen/Desktop/database_homework/4111_FALL2019/HW_Assignments/HW1_Template/Data/Baseball",
+    "file_name": "People.csv"
+  },
+  "key_columns": null,
+  "debug": true
+}
+DEBUG:root:CSVDataTable._load: Loaded 19617 rows
+
+2 test_match()
+
+output:True
+
+3 test_k_to_template()
+{'playerID': 'aardsda01'}
+
+
+4 t_load()
+Created table = CSVDataTable: config data = 
+{
+  "table_name": "people",
+  "connect_info": {
+    "directory": "/Users/xushusen/Desktop/database_homework/4111_FALL2019/HW_Assignments/HW1_Template/Data/Baseball",
+    "file_name": "People.csv"
+  },
+  "key_columns": null,
+  "debug": true
+}
+
+5 t_project()
+Project =  {'playerID': 'worthal01', 'yearID': '1960', 'HR': '0'}
+
+6 t_find_by_template()
+output:
+Query result = 
+ [
+  {
+    "playerID": "boonera01",
+    "teamID": "BOS",
+    "yearID": "1960",
+    "AB": "78",
+    "H": "16",
+    "HR": "1",
+    "RBI": "11"
+  },
+  {
+    "playerID": "borlato01",
+    "teamID": "BOS",
+    "yearID": "1960",
+    "AB": "13",
+    "H": "0",
+    "HR": "0",
+    "RBI": "0"
+  },
+......
+
+7 t_find_by_pk()
+
+output:
+Query result = 
+ [
+  {
+    "playerID": "abercda01",
+    "teamID": "TRO",
+    "yearID": "1871",
+    "AB": "4",
+    "H": "0",
+    "HR": "0",
+    "RBI": "0"
+  }
+]
+
+8 t_delete_by_template()
+
+output:2  rows have been deleted.
+
+
+9
+t_delete_by_key()
+
+output:
+1  rows have been deleted.
+
+
+
+10 t_update_by_template()
+test for normal case and duplicate key case
+output:
+1  rows have been updated
+Error: duplicate key update error!!!
+0 row has been updated
+
+
+11
+t_update_by_key()
+test for normal case and duplicate key case
+
+output:
+1  rows have been updated
+Error: duplicate key update error!!!
+0 row has been updated
+
+
+12 t_insert()
+test for normal case and duplicate key case
+output:
+ 1 row have been inserted
+Error: duplicate key update error!!!
+0 row has been updated
+
+13
+t_save():
+
+output:
+
+DEBUG:root:CSVDataTable._load: Loaded 19617 rows
+DEBUG:root:CSVDataTable._save: Saved 19617 rows
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

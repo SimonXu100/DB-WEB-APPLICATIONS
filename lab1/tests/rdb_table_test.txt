@@ -1,0 +1,123 @@
+rdb_table_test.txt (Test output)
+
+1 test_rdb_init()
+
+output:
+DEBUG:root:RDBDataTable.__init__: data = {
+  "table_name": "lahman2019raw.people",
+  "connect_info": {
+    "host": "localhost",
+    "user": "dbuser",
+    "password": "dbuserdbuser",
+    "db": "lahman2019raw",
+    "charset": "utf8mb4",
+RDBDataTable link status:   <pymysql.connections.Connection object at 0x10d9b34d0>
+Connection to DB <src.RDBDataTable.RDBDataTable object at 0x10d1ac110>
+    "cursorclass": "pymysql.cursors.DictCursor"
+  },
+  "key_columns": null
+}
+
+Process finished with exit code 0
+
+
+2 test_rdb_find_by_template()
+
+output:
+DEBUG:root:Executing SQL = select  nameLast,nameFirst,birthYear,birthState,birthMonth  from lahman2019raw.people  WHERE  nameLast='Williams' AND birthCity='San Diego' 
+Query result = 
+ [
+  2,
+  [
+    {
+      "nameLast": "Williams",
+      "nameFirst": "Ted",
+      "birthYear": "1918",
+      "birthState": "CA",
+      "birthMonth": "8"
+    },
+    {
+      "nameLast": "Williams",
+      "nameFirst": "Trevor",
+      "birthYear": "1992",
+      "birthState": "CA",
+      "birthMonth": "4"
+    }
+  ]
+]
+
+
+3 test_rdb_delete_by_template()
+output:
+DEBUG:root:Executing SQL = delete  from lahman2019raw.people  WHERE  nameLast='Williams' AND birthCity='San Diego' 
+RDBDataTable link status:   <pymysql.connections.Connection object at 0x10e239110>
+2  rows have been deleted
+
+
+4 test_rdb_delete_by_key()
+
+output:
+DEBUG:root:Executing SQL = delete  from lahman2019raw.batting  WHERE  playerID='bolan01' AND teamID='BR2' AND yearID='1875' AND stint='1' 
+RDBDataTable link status:   <pymysql.connections.Connection object at 0x10aaeb450>
+1  rows have been deleted
+
+
+
+5 test_rdb_update_by_template()
+test for normal case and duplicate key case
+
+output:
+DEBUG:root:Executing SQL = update lahman2019raw.people set nameFirst='Shusen',birthYear='1996',birthState='CN',birthMonth='4'  WHERE  nameLast='Aardsma' AND birthCity='Denver' 
+1 rows have been updated 
+....
+
+DEBUG:root:Executing SQL = update lahman2019raw.people set playerID='aardsda01',nameFirst='Shusen',birthYear='1996',birthState='CN',birthMonth='4'  WHERE  nameLast='Aaron' AND birthCity='Mobile'
+pymysql.err.IntegrityError: (1062, "Duplicate entry 'aardsda01' for key 'PRIMARY'")
+
+
+6 test_rdb_update_by_key()
+test for normal case and duplicate key case
+
+output:
+
+DEBUG:root:Executing SQL = update lahman2019raw.batting set AB='0',H='0',HR='0'  WHERE  playerID='hatfijo01' AND teamID='NY2' AND yearID='1871' AND stint='1' 
+1 rows have been updated 
+
+DEBUG:root:Executing SQL = update lahman2019raw.batting set playerID='hatfijo01',teamID='NY2',yearID='1871',stint='1'  WHERE  playerID='addybo01' AND teamID='BS1' AND yearID='1873' AND stint='2' 
+pymysql.err.IntegrityError: (1062, "Duplicate entry 'hatfijo01-1871-1-NY2' for key 'PRIMARY'")
+
+
+
+
+
+
+7 test_rdb_insert()
+test for normal case and duplicate key case
+
+output:
+
+DEBUG:root:Executing SQL = Insert into lahman2019raw.people (playerID,birthYear,birthMonth,birthDay,birthCountry,birthState)  values ('beanxu01','1996','4','29','CN','CN')
+1 row have been inserted
+
+DEBUG:root:Executing SQL = Insert into lahman2019raw.people (playerID,birthYear)  values ('beanxu01','2006')
+pymysql.err.IntegrityError: (1062, "Duplicate entry 'beanxu01' for key 'PRIMARY'")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

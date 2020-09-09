@@ -1,0 +1,290 @@
+Test files for CSVCatalog.py
+
+Notes:
+The definition of tables in sql: (in the beginning, all of the follow tables are empty)
+
+
+CREATE TABLE `tables` (
+  `table_name` varchar(32) NOT NULL,
+  `file_location` varchar(256) NOT NULL,
+  PRIMARY KEY (`table_name`),
+  UNIQUE KEY `file_location_UNIQUE` (`file_location`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `columns` (
+  `table_name` varchar(32) NOT NULL,
+  `column_name` varchar(32) NOT NULL,
+  `type` enum('text','number') NOT NULL,
+  `nullable` tinyint(4) NOT NULL,
+  PRIMARY KEY (`table_name`,`column_name`),
+  CONSTRAINT `c_to_t` FOREIGN KEY (`table_name`) REFERENCES `tables` (`table_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `index_info` (
+  `table_name` varchar(32) NOT NULL,
+  `column_name` varchar(32) NOT NULL,
+  `kind` enum('PRIMARY','UNIQUE','INDEX') NOT NULL,
+  `position` int(11) NOT NULL,
+  `index_name` varchar(32) NOT NULL,
+  PRIMARY KEY (`table_name`,`column_name`,`index_name`),
+  CONSTRAINT `i_to_c` FOREIGN KEY (`table_name`, `column_name`) REFERENCES `columns` (`table_name`, `column_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+
+
+
+1  test for building a CSVCatalog
+function:  def test_build_CSVCatalog():
+test use case: run CSVCatalog.CSVCatalog()
+input: None 
+
+output: 
+/usr/local/bin/python3.7 /Users/xushusen/Desktop/bonus_assignment/unit_test_catalog.py
+the catalog =  CSVCatalog ....  cnx= <pymysql.connections.Connection object at 0x109020cd0>
+
+Process finished with exit code 0
+
+
+
+2  test for creating an table
+function:  def test_create_table()
+test use case: run create_table(self, table_name, file_name, column_definitions=None, index_definitions=None):
+
+Input:
+for: def create_table(self, table_name, file_name, column_definitions=None, index_definitions=None):
+table_name: "batting"
+file_name: "/Users/xushusen/Desktop/bonus_assignment/Batting.csv"
+ColumnDefinitions:
+c_def1 = CSVCatalog.ColumnDefinition('playerID', "text", True)
+c_def2 = CSVCatalog.ColumnDefinition('yearID', "number", True)
+c_def3 = CSVCatalog.ColumnDefinition('stint', "number", True)
+c_def4 = CSVCatalog.ColumnDefinition('teamID', "text", True)
+c_def5 = CSVCatalog.ColumnDefinition('lgID', "text", True)
+
+index_definitions:
+i_def = CSVCatalog.IndexDefinition('Batting_index', 'PRIMARY', ['playerID', 'yearID', 'stint', 'teamID'])
+
+
+Output:
+/usr/local/bin/python3.7 /Users/xushusen/Desktop/bonus_assignment/unit_test_catalog.py
+Result =  {
+  "table_name": "batting",
+  "file_name": "/Users/xushusen/Desktop/bonus_assignment/Batting.csv",
+  "columns": [
+    {
+      "column_name": "playerID",
+      "column_type": "text",
+      "not_null": true
+    },
+    {
+      "column_name": "yearID",
+      "column_type": "number",
+      "not_null": true
+    },
+    {
+      "column_name": "stint",
+      "column_type": "number",
+      "not_null": true
+    },
+    {
+      "column_name": "teamID",
+      "column_type": "text",
+      "not_null": true
+    },
+    {
+      "column_name": "lgID",
+      "column_type": "text",
+      "not_null": true
+    }
+  ],
+  "indexes": [
+    {
+      "index_name": "Batting_index",
+      "index_type": "PRIMARY",
+      "column_names": [
+        "playerID",
+        "yearID",
+        "stint",
+        "teamID"
+      ]
+    }
+  ]
+}
+
+Process finished with exit code 0
+
+
+3 test for get_table()
+notes: first run test_create_table, do not run two times, otherwise duplicate key issues will arise
+
+
+function:  def test_get_table()
+test use case: run get_table(table_name)
+Input: table_name = 'batting' which created by the above process
+Ouput:
+/usr/local/bin/python3.7 /Users/xushusen/Desktop/bonus_assignment/unit_test_catalog.py
+get_table_result =  {
+  "table_name": "batting",
+  "file_name": "/Users/xushusen/Desktop/bonus_assignment/Batting.csv",
+  "columns": [
+    {
+      "column_name": "lgID",
+      "column_type": "text",
+      "not_null": 1
+    },
+    {
+      "column_name": "playerID",
+      "column_type": "text",
+      "not_null": 1
+    },
+    {
+      "column_name": "stint",
+      "column_type": "number",
+      "not_null": 1
+    },
+    {
+      "column_name": "teamID",
+      "column_type": "text",
+      "not_null": 1
+    },
+    {
+      "column_name": "yearID",
+      "column_type": "number",
+      "not_null": 1
+    }
+  ],
+  "indexes": [
+    {
+      "index_name": "Batting_index",
+      "index_type": "PRIMARY",
+      "column_names": [
+        "playerID",
+        "stint",
+        "teamID",
+        "yearID"
+      ]
+    }
+  ]
+}
+Process finished with exit code 0
+
+
+
+
+4 test for drop table
+function:  def test_drop_table()
+test use case: 
+run drop_table(table_name)
+then run get_table(table_name)
+
+Input: table_name = 'batting'
+Ouput: 
+step1: runing drop_table('batting')
+/usr/local/bin/python3.7 /Users/xushusen/Desktop/bonus_assignment/unit_test_catalog.py
+drop table : batting  successfully
+
+Process finished with exit code 0
+
+step2: run get_table():  
+raise ValueError('the table does not exists')
+/usr/local/bin/python3.7 /Users/xushusen/Desktop/bonus_assignment/unit_test_catalog.py
+Traceback (most recent call last):
+  File "/Users/xushusen/Desktop/bonus_assignment/unit_test_catalog.py", line 60, in <module>
+    test_get_table()
+  File "/Users/xushusen/Desktop/bonus_assignment/unit_test_catalog.py", line 48, in test_get_table
+    result = c_cat.get_table("batting")
+  File "/Users/xushusen/Desktop/bonus_assignment/CSVCatalog.py", line 509, in get_table
+    result = TableDefinition(t_name=table_name, load=True, cnx=self.cnx)
+  File "/Users/xushusen/Desktop/bonus_assignment/CSVCatalog.py", line 182, in __init__
+    self.load_core_definition()
+  File "/Users/xushusen/Desktop/bonus_assignment/CSVCatalog.py", line 250, in load_core_definition
+    raise ValueError('the table does not exists')
+ValueError: the table does not exists
+
+
+
+5 test for column_definition
+function:  def test_column_definition
+test use case: run c_def = CSVCatalog.ColumnDefinition("AB", 'number', True)
+Input:
+column_name = "AB"
+column_type = 'number'
+not_null = True
+
+output:
+/usr/local/bin/python3.7 /Users/xushusen/Desktop/bonus_assignment/unit_test_catalog.py
+c_def =  {
+  "column_name": "AB",
+  "column_type": "number",
+  "not_null": true
+}
+
+Process finished with exit code 0
+
+
+
+6 test for index definition
+function: test_index_definition()
+test use case: run CSVCatalog.IndexDefinition('Batting_index', 'PRIMARY', ['playerID', 'teamID', 'yearID', 'stint'])
+Input:
+index_name = 'Batting_index'
+index_type = 'PRIMARY'
+column_names = ['playerID', 'teamID', 'yearID', 'stint']
+
+
+output:
+/usr/local/bin/python3.7 /Users/xushusen/Desktop/bonus_assignment/unit_test_catalog.py
+c_def =  {
+  "column_name": "AB",
+  "column_type": "number",
+  "not_null": true
+}
+
+Process finished with exit code 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

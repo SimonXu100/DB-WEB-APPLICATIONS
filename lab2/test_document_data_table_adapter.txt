@@ -1,0 +1,187 @@
+Test for data_table_adapter.py
+
+1 
+# test for get_rdb_table(): fetch the specified RDB table resource
+def t_get_rdb_table():
+
+call: t_get_rdb_table()
+notes:
+tables_name = "people"
+database_name = "lahman2019clean"
+
+the result:
+RDBDataTable: 
+table_name = people
+db_name = lahman2019clean
+Table type = <class 'src.data_service.RDBDataTable.RDBDataTable'>
+Key fields: ['playerID']
+No. of rows = 19619
+A few sample rows = 
+    playerID birthYear birthMonth birthDay birthCountry birthState  ...       debut   finalGame   retroID    bbrefID  birthDate  deathDate
+0  aardsda01      1981         12       27          USA         CO  ...  2004-04-06  2015-08-23  aardd001  aardsda01 1981-12-27        NaT
+1  aaronha01      1934          2        5          USA         AL  ...  1954-04-13  1976-10-03  aaroh101  aaronha01 1934-02-05        NaT
+2  aaronto01      1939          8        5          USA         AL  ...  1962-04-10  1971-09-26  aarot101  aaronto01 1939-08-05 1984-08-16
+3   aasedo01      1954          9        8          USA         CA  ...  1977-07-26  1990-10-03  aased001   aasedo01 1954-09-08        NaT
+4   abadan01      1972          8       25          USA         FL  ...  2001-09-10  2006-04-13  abada001   abadan01 1972-08-25        NaT
+
+[5 rows x 26 columns]
+Related resources:
+null
+
+
+
+2 
+# test for get_databases(): fetch a list of databses in json format
+def t_get_databases():
+
+call: t_get_databases()
+
+the result:
+/Users/xushusen/.conda/envs/HW2F19-Template/bin/python /Users/xushusen/Desktop/HW2_database/hw2/HW_Assignments/HW2F19-Template/test/test_data_table_adaptor.py
+the result of get_databases:    [
+  {
+    "Database": "DumpDB"
+  },
+  {
+    "Database": "information_schema"
+  },
+  {
+    "Database": "lahman2019clean"
+  },
+  {
+    "Database": "lahman2019raw"
+  },
+  {
+    "Database": "mysql"
+  },
+  {
+    "Database": "performance_schema"
+  },
+  {
+    "Database": "sys"
+  },
+  {
+    "Database": "test_DB"
+  }
+]
+
+Process finished with exit code 0
+
+
+3 
+# test for get_tables: fetch a list of tables within a specified database in json format
+def t_get_tables(dbname):
+
+call: t_get_tables("lahman2019clean")
+
+notes: dbname = "lahman2019clean"
+
+the result:
+/Users/xushusen/.conda/envs/HW2F19-Template/bin/python /Users/xushusen/Desktop/HW2_database/hw2/HW_Assignments/HW2F19-Template/test/test_data_table_adaptor.py
+the result of get_tables:    [
+  {
+    "Tables_in_lahman2019clean": "allstarfull"
+  },
+  {
+    "Tables_in_lahman2019clean": "appearances"
+  },
+  {
+    "Tables_in_lahman2019clean": "averageheight"
+  },
+  {
+    "Tables_in_lahman2019clean": "awardsmanagers"
+  },
+  {
+    "Tables_in_lahman2019clean": "awardsplayers"
+  },
+  {
+    "Tables_in_lahman2019clean": "awardssharemanagers"
+  },
+  {
+    "Tables_in_lahman2019clean": "awardsshareplayers"
+  },
+  {
+    "Tables_in_lahman2019clean": "batting"
+  },
+  {
+    "Tables_in_lahman2019clean": "battingpost"
+  },
+  {
+    "Tables_in_lahman2019clean": "collegeplaying"
+  },
+  {
+    "Tables_in_lahman2019clean": "fielding"
+  },
+  {
+    "Tables_in_lahman2019clean": "fieldingof"
+  },
+  {
+    "Tables_in_lahman2019clean": "fieldingofsplit"
+  },
+  {
+    "Tables_in_lahman2019clean": "fieldingpost"
+  },
+  {
+    "Tables_in_lahman2019clean": "halloffame"
+  },
+  {
+    "Tables_in_lahman2019clean": "homegames"
+  },
+  {
+    "Tables_in_lahman2019clean": "managers"
+  },
+  {
+    "Tables_in_lahman2019clean": "managershalf"
+  },
+  {
+    "Tables_in_lahman2019clean": "parks"
+  },
+  {
+    "Tables_in_lahman2019clean": "people"
+  },
+  {
+    "Tables_in_lahman2019clean": "pitching"
+  },
+  {
+    "Tables_in_lahman2019clean": "pitchingpost"
+  },
+  {
+    "Tables_in_lahman2019clean": "salaries"
+  },
+  {
+    "Tables_in_lahman2019clean": "schools"
+  },
+  {
+    "Tables_in_lahman2019clean": "seriespost"
+  },
+  {
+    "Tables_in_lahman2019clean": "teams"
+  },
+  {
+    "Tables_in_lahman2019clean": "teamsfranchises"
+  },
+  {
+    "Tables_in_lahman2019clean": "teamshalf"
+  }
+]
+
+Process finished with exit code 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

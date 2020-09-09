@@ -1,0 +1,31 @@
+test for RDBDataTable.py
+
+1	
+#test for get_primary_key_columns(self)
+def t_get_primary_key_columns()
+
+call: t_get_primary_key_columns()
+
+note: table_name = 'appearances'
+      db_name = 'lahman2019clean'
+
+the result:
+ the result of get_primary_key_columns:    [
+  "playerID",
+  "teamID",
+  "yearID"
+]
+
+2 
+# test for get_row_count():
+def t_get_row_count()
+
+call: t_get_row_count()
+note:
+    table_name = 'appearances'
+    db_name = 'lahman2019clean'
+
+the result: 
+the result of get_primary_key_columns:    105793
+
+
